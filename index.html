@@ -4,295 +4,595 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>squeezeoioi — Menu Design</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: #0A0D0A;
-    color: #C8F0D0;
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1.6;
-  }
-  a { color: inherit; text-decoration: none; }
-  .green { color: #39FF6A; }
-  .dim { color: #5A7A62; }
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --green: #00FF41;
+  --dim: #1A1A1A;
+  --muted: #555555;
+}
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 32px;
-    border-bottom: 1px solid #1C2B1F;
-  }
-  .brand { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
-  header nav a {
-    border: 1px solid #2A3E2D;
-    padding: 8px 16px;
-    font-size: 13px;
-  }
-  header nav a:hover { border-color: #39FF6A; color: #39FF6A; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .status {
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: #5A7A62;
-    border-bottom: 1px solid #1C2B1F;
-  }
-  .status .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #39FF6A;
-    margin-right: 8px;
-    box-shadow: 0 0 6px #39FF6A;
-  }
+html { scroll-behavior: smooth; }
 
-  .hero {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 100px 32px 60px;
-    text-align: center;
-  }
-  .hero h1 {
-    font-size: 44px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #EAFBEE;
-  }
-  .hero h1 .accent { color: #39FF6A; }
-  .hero p {
-    max-width: 560px;
-    margin: 24px auto 0;
-    color: #8FAF97;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-  }
-  .hero .ctas {
-    margin-top: 36px;
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-  }
-  .btn {
-    padding: 14px 24px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    border: 1px solid #39FF6A;
-  }
-  .btn-solid { background: #39FF6A; color: #0A0D0A; font-weight: 700; }
-  .btn-outline { color: #39FF6A; }
-  .btn:hover { opacity: 0.85; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
 
-  .ticker {
-    border-top: 1px solid #1C2B1F;
-    border-bottom: 1px solid #1C2B1F;
-    padding: 14px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 12px;
-    color: #3E5A44;
-    letter-spacing: 2px;
-  }
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
 
-  .intro {
-    max-width: 700px;
-    margin: 80px auto;
-    padding: 0 32px;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    color: #C8F0D0;
-  }
-  .intro .fade { color: #4A6650; }
+/* SCANLINE */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,65,0.015) 2px,
+    rgba(0,255,65,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
 
-  .services {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0 32px 100px;
-  }
-  .services .label {
-    font-size: 12px;
-    color: #5A7A62;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
-  }
-  .service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    background: #1C2B1F;
-    border: 1px solid #1C2B1F;
-  }
-  .service {
-    background: #0A0D0A;
-    padding: 28px;
-  }
-  .service .num { font-size: 12px; color: #39FF6A; }
-  .service h3 {
-    font-family: 'Inter', sans-serif;
-    font-size: 17px;
-    color: #EAFBEE;
-    margin: 12px 0 10px;
-    font-weight: 600;
-  }
-  .service p {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    color: #8FAF97;
-    line-height: 1.55;
-  }
-  .service .tag {
-    display: inline-block;
-    margin-top: 16px;
-    font-size: 11px;
-    color: #5A7A62;
-    border: 1px solid #2A3E2D;
-    padding: 3px 8px;
-  }
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  mix-blend-mode: normal;
+}
 
-  .quote {
-    max-width: 700px;
-    margin: 0 auto 100px;
-    padding: 0 32px;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-  }
-  .quote p:first-child {
-    font-size: 22px;
-    color: #EAFBEE;
-    line-height: 1.5;
-  }
-  .quote p:last-child {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #8FAF97;
-  }
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: var(--green);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
 
-  .contact {
-    text-align: center;
-    padding: 80px 32px 100px;
-    border-top: 1px solid #1C2B1F;
-  }
-  .contact h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: 30px;
-    color: #EAFBEE;
-    font-weight: 600;
-  }
-  .contact .mail {
-    display: block;
-    margin: 20px 0;
-    font-size: 18px;
-    color: #39FF6A;
-  }
-  .contact .sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    color: #5A7A62;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-  .contact .btn { display: inline-block; margin-top: 28px; }
+.nav-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.15s;
+}
 
-  footer {
-    border-top: 1px solid #1C2B1F;
-    padding: 24px 32px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: #4A6650;
-    letter-spacing: 1px;
-  }
+.nav-link:hover { color: var(--green); }
 
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 30px; }
-    .hero .ctas { flex-direction: column; }
-    footer { flex-direction: column; gap: 8px; text-align: center; }
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 40px 80px;
+  position: relative;
+}
+
+.hero-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.12em;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeIn 0.6s 0.3s forwards;
+}
+
+.hero-counter span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+  animation: pulse 2s infinite;
+}
+
+.hero-title {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(52px, 10vw, 140px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  max-width: 14ch;
+  opacity: 0;
+  animation: slideUp 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-title .accent { color: var(--green); }
+
+.hero-sub {
+  margin-top: 48px;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 44ch;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeIn 0.6s 1s forwards;
+}
+
+.hero-cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.6s 1.2s forwards;
+}
+
+.btn-primary {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--black);
+  background: var(--green);
+  border: none;
+  padding: 14px 28px;
+  cursor: crosshair;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-secondary {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.btn-secondary:hover { color: var(--white); }
+
+/* TICKER */
+.ticker {
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+}
+
+.ticker-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  padding: 0 40px;
+}
+
+.ticker-text .t { color: var(--green); }
+
+/* MANIFESTO */
+.manifesto {
+  padding: 120px 40px;
+  max-width: 900px;
+}
+
+.manifesto-line {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: #222;
+  transition: color 0.3s;
+}
+
+.manifesto-line:hover { color: var(--white); }
+.manifesto-line.bright { color: var(--white); }
+.manifesto-line .g { color: var(--green); }
+
+/* SERVICES */
+.services {
+  padding: 0 40px 120px;
+  border-top: 1px solid #111;
+}
+
+.services-header {
+  padding: 60px 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.services-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--green);
+}
+
+.services-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.service-item {
+  border-top: 1px solid #111;
+  padding: 32px 0;
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 32px;
+  align-items: start;
+  cursor: crosshair;
+  transition: background 0.15s;
+}
+
+.service-item:hover .service-name { color: var(--green); }
+
+.service-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  padding-top: 4px;
+}
+
+.service-name {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  transition: color 0.15s;
+  line-height: 1.2;
+}
+
+.service-desc {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 52ch;
+  line-height: 1.65;
+}
+
+.service-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--green);
+  border: 1px solid #1a3a1a;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* STATEMENT */
+.statement {
+  padding: 120px 40px;
+  border-top: 1px solid #111;
+}
+
+.statement-text {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(20px, 3vw, 36px);
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  color: var(--white);
+}
+
+.statement-text .g { color: var(--green); }
+
+.statement-footnote {
+  margin-top: 60px;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 44ch;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* CONTACT */
+.contact {
+  padding: 80px 40px 120px;
+  border-top: 1px solid #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.contact-left h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(32px, 5vw, 72px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+.contact-left h2 .g { color: var(--green); }
+
+.contact-email {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.contact-email:hover { color: var(--green); }
+
+/* FOOTER */
+footer {
+  padding: 24px 40px;
+  border-top: 1px solid #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--green);
+}
+
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* CURSOR DOT */
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s;
+  mix-blend-mode: difference;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  nav, .hero, .manifesto, .services, .statement, .contact, footer {
+    padding-left: 20px;
+    padding-right: 20px;
   }
+  .service-item {
+    grid-template-columns: 32px 1fr;
+  }
+  .service-tag { display: none; }
+  nav { padding: 16px 20px; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">squeeze<span class="green">oioi</span>_</div>
-  <nav><a href="#contact">get in touch</a></nav>
-</header>
+<div class="cursor" id="cursor"></div>
 
-<div class="status"><span class="dot"></span>MENU DESIGN SYSTEM · OPERATIONAL</div>
+<nav>
+  <a href="/" class="logo">squeeze<span style="opacity:0.4">oioi</span><span class="blink" style="color:var(--green);margin-left:2px">_</span></a>
+  <a href="#contact" class="nav-link">get in touch</a>
+</nav>
 
+<!-- HERO -->
 <section class="hero">
-  <h1>We don't <span class="accent">design</span> menus.<br>We design <span class="accent">weapons</span>.</h1>
-  <p>Culinary consulting for restaurants that refuse to be ordinary. Menu engineering, brand systems, and the science behind what people order next.</p>
-  <div class="ctas">
-    <a class="btn btn-solid" href="#contact">REQUEST A PROPOSAL</a>
-    <a class="btn btn-outline" href="#services">SEE WHAT WE DO ↓</a>
+  <div class="hero-counter">
+    <span></span>MENU DESIGN SYSTEM · OPERATIONAL
+  </div>
+  <h1 class="hero-title">
+    We don't<br>
+    design<br>
+    menus.<br>
+    We design<br>
+    <span class="accent">weapons.</span>
+  </h1>
+  <p class="hero-sub">
+    Culinary consulting for restaurants that refuse to be ordinary. Menu engineering, brand systems, and the science behind what people order next.
+  </p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">REQUEST A PROPOSAL</a>
+    <a href="#services" class="btn-secondary">see what we do ↓</a>
   </div>
 </section>
 
+<!-- TICKER -->
 <div class="ticker">
-  MENU ENGINEERING /// CULINARY CONSULTING /// BRAND SYSTEMS /// STAFF TRAINING /// SEASONAL REFRESH /// COST OPTIMIZATION /// MENU ENGINEERING /// CULINARY CONSULTING /// BRAND SYSTEMS /// STAFF TRAINING /// SEASONAL REFRESH /// COST OPTIMIZATION ///
+  <div class="ticker-inner">
+    <span class="ticker-text">MENU ENGINEERING <span class="t">///</span> CULINARY CONSULTING <span class="t">///</span> BRAND SYSTEMS <span class="t">///</span> STAFF TRAINING <span class="t">///</span> SEASONAL REFRESH <span class="t">///</span> COST OPTIMIZATION <span class="t">///</span> MENU ENGINEERING <span class="t">///</span> CULINARY CONSULTING <span class="t">///</span> BRAND SYSTEMS <span class="t">///</span> STAFF TRAINING <span class="t">///</span> SEASONAL REFRESH <span class="t">///</span> COST OPTIMIZATION <span class="t">///</span></span>
+  </div>
 </div>
 
-<div class="intro">
-  Every restaurant thinks it's different. <span class="fade">Most of them aren't.</span><br><br>
-  The ones that are don't happen by accident. <span class="fade">They happen by design.</span>
-</div>
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <p class="manifesto-line">Every restaurant</p>
+  <p class="manifesto-line">thinks it's different.</p>
+  <p class="manifesto-line bright">Most of them <span class="g">aren't.</span></p>
+  <br><br>
+  <p class="manifesto-line">The ones that are</p>
+  <p class="manifesto-line">don't happen by accident.</p>
+  <p class="manifesto-line bright">They happen by <span class="g">design.</span></p>
+</section>
 
+<!-- SERVICES -->
 <section class="services" id="services">
-  <div class="label">WHAT WE DO /// 05 SERVICES</div>
-  <div class="service-grid">
-    <div class="service">
-      <div class="num">01</div>
-      <h3>Menu Conception</h3>
-      <p>Full menu design from zero. Recipe development, technical sheets with exact grammes, allergens, cost per portion. Training the kitchen to execute perfectly — not approximately.</p>
-      <span class="tag">ONE-TIME</span>
+  <div class="services-header">
+    <div class="services-title">WHAT WE DO</div>
+    <div class="services-count">05 services</div>
+  </div>
+
+  <div class="service-item">
+    <div class="service-num">01</div>
+    <div>
+      <div class="service-name">Menu Conception</div>
+      <div class="service-desc">Full menu design from zero. Recipe development, technical sheets with exact grammes, allergens, cost per portion. Training the kitchen to execute perfectly — not approximately.</div>
     </div>
-    <div class="service">
-      <div class="num">02</div>
-      <h3>Menu Engineering</h3>
-      <p>Every dish classified by margin and volume. Stars, plowhorses, puzzles, dogs — then we act on each differently. Based on real sales data, not intuition.</p>
-      <span class="tag">ONGOING</span>
+    <div class="service-tag">ONE-TIME</div>
+  </div>
+
+  <div class="service-item">
+    <div class="service-num">02</div>
+    <div>
+      <div class="service-name">Menu Engineering</div>
+      <div class="service-desc">Every dish classified by margin and volume. Stars, plowhorses, puzzles, dogs — then we act on each differently. Based on real sales data, not intuition.</div>
     </div>
-    <div class="service">
-      <div class="num">03</div>
-      <h3>Seasonal Refresh</h3>
-      <p>Menus age. Ingredients change. Trends shift. We keep your menu alive and current — not a document that was relevant two years ago.</p>
-      <span class="tag">RETAINER</span>
+    <div class="service-tag">ONGOING</div>
+  </div>
+
+  <div class="service-item">
+    <div class="service-num">03</div>
+    <div>
+      <div class="service-name">Seasonal Refresh</div>
+      <div class="service-desc">Menus age. Ingredients change. Trends shift. We keep your menu alive and current — not a document that was relevant two years ago.</div>
     </div>
-    <div class="service">
-      <div class="num">04</div>
-      <h3>Floor Training</h3>
-      <p>The best menu in the world fails if the person describing it doesn't believe in it. We train your floor staff to sell — not recite.</p>
-      <span class="tag">ON-SITE</span>
+    <div class="service-tag">RETAINER</div>
+  </div>
+
+  <div class="service-item">
+    <div class="service-num">04</div>
+    <div>
+      <div class="service-name">Floor Training</div>
+      <div class="service-desc">The best menu in the world fails if the person describing it doesn't believe in it. We train your floor staff to sell — not recite.</div>
     </div>
-    <div class="service">
-      <div class="num">05</div>
-      <h3>Multi-location Systems</h3>
-      <p>The same quality in 15 locations across 3 cities. A replication manual that works without us being there every day. The difference between a restaurant and a brand.</p>
-      <span class="tag">ENTERPRISE</span>
+    <div class="service-tag">ON-SITE</div>
+  </div>
+
+  <div class="service-item">
+    <div class="service-num">05</div>
+    <div>
+      <div class="service-name">Multi-location Systems</div>
+      <div class="service-desc">The same quality in 15 locations across 3 cities. A replication manual that works without us being there every day. The difference between a restaurant and a brand.</div>
     </div>
+    <div class="service-tag">ENTERPRISE</div>
   </div>
 </section>
 
-<div class="quote">
-  <p>A restaurant that works with us doesn't get a menu. It gets a system that keeps working after we leave.</p>
-  <p>We don't believe in one-time interventions. The restaurants we work with see us as infrastructure — not as consultants who showed up once, left a PDF, and disappeared.</p>
-</div>
+<!-- STATEMENT -->
+<section class="statement">
+  <p class="statement-text">
+    A restaurant that works with us doesn't get a menu.<br><br>
+    It gets a system that <span class="g">keeps working</span> after we leave.
+  </p>
+  <p class="statement-footnote">
+    We don't believe in one-time interventions. The restaurants we work with see us as infrastructure — not as consultants who showed up once, left a PDF, and disappeared.
+  </p>
+</section>
 
+<!-- CONTACT -->
 <section class="contact" id="contact">
-  <h2>Let's talk about your menu.</h2>
-  <a class="mail" href="mailto:hello@squeezeoioi.com">hello@squeezeoioi.com</a>
-  <p class="sub">We respond within 24 hours. No decks, no fluff — just a real conversation.</p>
-  <a class="btn btn-solid" href="mailto:hello@squeezeoioi.com">GET IN TOUCH</a>
+  <div class="contact-left">
+    <h2>Let's talk<br>about your<br><span class="g">menu.</span></h2>
+    <a href="mailto:hello@squeezeoioi.com" class="contact-email">hello@squeezeoioi.com</a>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px">We respond within 24 hours.<br>No decks, no fluff — just a real conversation.</p>
+  </div>
+  <div>
+    <a href="mailto:hello@squeezeoioi.com" class="btn-primary">GET IN TOUCH</a>
+  </div>
 </section>
 
 <footer>
-  <span>squeezeoioi.com</span>
-  <span>CULINARY CONSULTING · MENU DESIGN · EST. 2026</span>
+  <div class="footer-logo">squeezeoioi.com</div>
+  <div class="footer-copy">CULINARY CONSULTING · MENU DESIGN · EST. 2026</div>
 </footer>
 
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = (e.clientX - 4) + 'px';
+  cursor.style.top = (e.clientY - 4) + 'px';
+});
+
+// Manifesto reveal on scroll
+const lines = document.querySelectorAll('.manifesto-line');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.color = '';
+  });
+}, { threshold: 0.5 });
+lines.forEach(l => observer.observe(l));
+
+// Glitch effect on logo hover
+const logo = document.querySelector('.logo');
+logo.addEventListener('mouseenter', () => {
+  logo.style.letterSpacing = '-0.06em';
+  setTimeout(() => logo.style.letterSpacing = '-0.02em', 80);
+  setTimeout(() => logo.style.letterSpacing = '-0.06em', 140);
+  setTimeout(() => logo.style.letterSpacing = '', 200);
+});
+</script>
 </body>
 </html>
